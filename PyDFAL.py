@@ -60,7 +60,7 @@ def inject_links(input_pdf, output_pdf):
         links_added = 0
 
         # --- Strict Regex Definitions ---
-        # We only allow newlines if they are explicitly surrounded by URL punctuation
+        # Only allow newlines if they are explicitly surrounded by URL punctuation
         PUNC_CLASS = r"[/.\-=_?&@+\xad\u00ad]"
         SAFE_NL = rf"(?:(?<={PUNC_CLASS})\n|\n(?={PUNC_CLASS}))"
         URL_CHARS = r"[a-zA-Z0-9./?=_%:\-@+&\xad\u00ad]"
@@ -157,7 +157,7 @@ def inject_links(input_pdf, output_pdf):
                             current_rect = fitz.Rect(r)
                     merged_rects.append(current_rect)
 
-                    # Fix Scribus soft-hyphens by turning them into real hyphens
+                    # Fix soft-hyphens by turning them into real hyphens
                     clean_uri = valid_text.replace('\n', '').replace('\xad', '-').replace('\u00ad', '-')
                     clean_uri = clean_uri.replace('--', '-') # Prevent double hyphens
 
@@ -181,13 +181,13 @@ def inject_links(input_pdf, output_pdf):
         doc.close()
         print(f"Pass 1 Complete! Successfully created {links_added} clickable hyperlink items.")
         if DEBUG_MODE:
-            print(">>> DEBUG MODE ON: Look for the red boxes in the Blurb-Online PDF! <<<")
+            print(">>> DEBUG MODE ON: Look for the red boxes in the Online PDF <<<")
 
     except Exception as e:
         error_exit(f"Failed during link injection:\n{e}")
 
 def shrink_and_shimmy(input_pdf, output_pdf):
-    print("Starting Pass 2: Formatting MagCloud layout...")
+    print("Starting Pass 2: Formatting OnDemand layout...")
     try:
         src_doc = fitz.open(input_pdf)
         dest_doc = fitz.open()
@@ -224,26 +224,26 @@ def shrink_and_shimmy(input_pdf, output_pdf):
         error_exit(f"Failed during shrink and shimmy:\n{e}")
 
 def main():
-    pdf_files = [f for f in os.listdir('.') if f.endswith('.pdf') and 'Blurb-Online' not in f and 'MagCloud' not in f]
+    pdf_files = [f for f in os.listdir('.') if f.endswith('.pdf') and 'Online' not in f and 'OnDemand' not in f]
 
     if not pdf_files:
-        error_exit("No source PDF found in this folder. Make sure your Scribus export is here.")
+        error_exit("No source PDF found in this folder. Make sure your original PDF is here.")
 
     if len(pdf_files) > 1:
-        error_exit("Multiple source PDFs found. Please only keep the original Scribus export in this folder to avoid mix-ups.")
+        error_exit("Multiple source PDFs found. Please only keep the original PDF in this folder to avoid mix-ups.")
 
     input_file = pdf_files[0]
     base_name = os.path.splitext(input_file)[0]
 
-    blurb_output = f"{base_name}-Blurb-Online.pdf"
-    magcloud_output = f"{base_name}-MagCloud.pdf"
+    online_output = f"{base_name}-Online.pdf"
+    ondemand_output = f"{base_name}-OnDemand.pdf"
 
     print(f"Found source file: {input_file}")
     print("-" * 40)
 
-    inject_links(input_file, blurb_output)
+    inject_links(input_file, online_output)
     print("-" * 40)
-    shrink_and_shimmy(input_file, magcloud_output)
+    shrink_and_shimmy(input_file, ondemand_output)
 
     print("-" * 40)
     print("All processes finished successfully!")
