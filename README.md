@@ -1,8 +1,8 @@
 # PyDF-AutoLinker
 
-A lightweight Python post-processing utility for [Scribus](https://www.scribus.net/) PDF exports and other PDFs with stadnard text frames. 
+A lightweight Python post-processing utility for PDFs with standard text frames. 
 
-Because the internal Scribus Python API lacks the ability to map physical text coordinates to PDF Link Annotations, automating clickable links inside Scribus is virtually impossible. This script solves that problem by running as a post-processing pipeline using PyMuPDF. It reads your "flat" PDF, intelligently maps the text coordinates, injects native clickable PDF hyperlink boxes, and automatically generates a secondary formatted copy for print-on-demand services.
+This script runs a post-processing pipeline using PyMuPDF. It reads your "flat" PDF, intelligently maps the text coordinates, injects native clickable PDF hyperlink boxes, and automatically generates a secondary formatted copy for print-on-demand services.
 
 ## ✨ Features
 
@@ -35,7 +35,7 @@ Install PyMuPDF via terminal:
 
 **To run via Terminal:**
 Navigate to the folder and run:
-`python3 compile_magazine.py`
+`python3 PyDFAL.py`
 
 **To run via GUI (Double-Click in Linux):**
 1. Right-click `PyDFAL.py` and go to **Properties**.
@@ -44,9 +44,9 @@ Navigate to the folder and run:
 
 ## 📂 Output
 
-If your source file is named `MyMagazine.pdf`, the script will leave your original file untouched and generate two new files in the same directory:
-* `MyMagazine-Online.pdf` (Fully hyperlinked for the web)
-* `MyMagazine-OnDemand.pdf` (Scaled and shifted for on demand print)
+If your source file is named `MyFile.pdf`, the script will leave your original file untouched and generate two new files in the same directory:
+* `MyFile-Online.pdf` (Fully hyperlinked for the web)
+* `MyFile-OnDemand.pdf` (Scaled and shifted for on demand print)
 
 ## ⚠️ Known Limitations & Testing Notes
 
